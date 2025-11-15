@@ -89,30 +89,71 @@ git push -u origin main
 
 ### Step 4: Connect Your Custom Domain (equipindia.in)
 
+**First, set up the domain in GitHub:**
 1. In the same **Pages** settings, scroll to **Custom domain**
 2. Enter `equipindia.in` and click **Save**
 3. GitHub will create a `CNAME` file in your repository
+4. **Note your GitHub Pages URL** - it will be something like `YOUR_USERNAME.github.io` (you'll need this for GoDaddy)
 
-#### DNS Configuration
+**Then, configure DNS in GoDaddy:**
 
-You need to configure DNS records with your domain registrar:
+#### GoDaddy DNS Configuration (Step-by-Step)
 
-**Option 1: Apex Domain (equipindia.in)**
-- Add these A records:
-  - `185.199.108.153`
-  - `185.199.109.153`
-  - `185.199.110.153`
-  - `185.199.111.153`
+**What is DNS?** Think of it as a phone book that tells the internet where to find your website. When someone types `equipindia.in`, DNS points them to GitHub Pages where your site is hosted.
 
-**Option 2: Subdomain (www.equipindia.in)**
-- Add a CNAME record:
-  - Name: `www`
-  - Value: `YOUR_USERNAME.github.io`
+**Steps in GoDaddy Dashboard:**
 
-**Option 3: Both (Recommended)**
-- Add the A records for apex domain
-- Add CNAME for www subdomain
-- In GitHub Pages settings, check "Enforce HTTPS" (available after DNS propagates)
+1. **Log in to GoDaddy**
+   - Go to [godaddy.com](https://godaddy.com) and sign in
+   - Click on your account/name in the top right
+   - Select "My Products"
+
+2. **Find Your Domain**
+   - Look for `equipindia.in` in your list of domains
+   - Click on the **DNS** button (or "Manage DNS") next to your domain
+
+3. **Add A Records (for equipindia.in)**
+   - Scroll down to the **Records** section
+   - You'll see a table with existing records
+   - Click the **Add** button (usually at the top right of the records table)
+   - Select **A** from the Type dropdown
+   - For **Name/Host**: Enter `@` (this means your main domain)
+   - For **Value/Points to**: Enter `185.199.108.153`
+   - Leave **TTL** as default (usually 600 seconds or 1 hour)
+   - Click **Save**
+   
+   **Repeat this 3 more times** to add the other 3 A records:
+   - Second A record: Name `@`, Value `185.199.109.153`
+   - Third A record: Name `@`, Value `185.199.110.153`
+   - Fourth A record: Name `@`, Value `185.199.111.153`
+
+4. **Update CNAME Record (for www.equipindia.in) - Optional but Recommended**
+   
+   **IMPORTANT:** If you already have a CNAME record with Name `www`, you need to **UPDATE** it, not create a new one!
+   
+   - Look for an existing CNAME record with Name `www` in your records table
+   - If it exists and points to `equipindia.in` or something else, click the **three dots (...)** or **Edit** button next to it
+   - Change the **Value/Points to** to: `cliffordrichiefam-commits.github.io` (just the domain, NO path like `/equipindia.in`)
+   - Click **Save**
+   
+   **If you DON'T have a www CNAME record yet:**
+   - Click the **Add** button
+   - Select **CNAME** from the Type dropdown
+   - For **Name/Host**: Enter `www`
+   - For **Value/Points to**: Enter `cliffordrichiefam-commits.github.io` (just the domain, NO path)
+   - Leave **TTL** as default
+   - Click **Save**
+
+5. **Remove Conflicting Records (if any)**
+   - If you see any existing A records pointing to other IP addresses (like GoDaddy parking pages), you can delete them
+   - Look for A records with Name `@` that have different values than the GitHub IPs above
+   - Click the three dots (...) next to them and select Delete
+   - **Note:** You can only have ONE CNAME record with the name `www`, so make sure you updated the existing one rather than trying to add a duplicate
+
+**Important Notes:**
+- DNS changes can take 1-48 hours to propagate (usually 1-2 hours)
+- You can check if it's working by visiting `equipindia.in` in your browser
+- Once DNS is working, go back to GitHub Pages settings and check "Enforce HTTPS" (this option appears after DNS is properly configured)
 
 ### Step 5: Verify
 
