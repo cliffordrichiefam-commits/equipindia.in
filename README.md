@@ -112,9 +112,16 @@ git push -u origin main
    - Look for `equipindia.in` in your list of domains
    - Click on the **DNS** button (or "Manage DNS") next to your domain
 
-3. **Add A Records (for equipindia.in)**
+3. **Fix A Records (for equipindia.in) - IMPORTANT!**
+   
+   **FIRST: Delete the WRONG A records**
    - Scroll down to the **Records** section
-   - You'll see a table with existing records
+   - Look for A records with Name `@` that point to IPs like `13.248.243.5` or `76.223.105.230` (these are WRONG)
+   - Click the **three dots (...)** or **Edit** button next to each wrong A record
+   - Click **Delete** to remove them
+   - You need to DELETE all A records with Name `@` that don't point to GitHub's IPs
+   
+   **THEN: Add the CORRECT A records**
    - Click the **Add** button (usually at the top right of the records table)
    - Select **A** from the Type dropdown
    - For **Name/Host**: Enter `@` (this means your main domain)
@@ -126,6 +133,8 @@ git push -u origin main
    - Second A record: Name `@`, Value `185.199.109.153`
    - Third A record: Name `@`, Value `185.199.110.153`
    - Fourth A record: Name `@`, Value `185.199.111.153`
+   
+   **After this step, you should have exactly 4 A records with Name `@`, all pointing to GitHub's IPs (185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153)**
 
 4. **Update CNAME Record (for www.equipindia.in) - Optional but Recommended**
    
